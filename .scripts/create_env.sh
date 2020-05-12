@@ -4,7 +4,8 @@ if [ $# -gt 0 ]; then
 
     ls .git 1>/dev/null 2>/dev/null
     has_git=$?
-    if [ "$1" = "RESET" ] || [ $has_git -eq 2 ]; then
+    echo "$1"
+    if [ "$1" = "RESET" ] || [ $has_git -eq 2 ]; then
         if [ "$1" = "RESET" ]; then
             read -r -N 1 -p "Are you sure ? [y/n] "
         else
@@ -15,8 +16,9 @@ if [ $# -gt 0 ]; then
             rm -rf .git
             git init
             echo -e "nobck/*\n.*" > .gitignore
-            git add env
+            git add create_env
             git commit -m "Init"
+            rm -rf ./.nobck_*
             clear
             echo "Env resetted"
             if [ "$1" = "RESET" ]; then
@@ -28,7 +30,7 @@ if [ $# -gt 0 ]; then
     exists=$(git branch|grep $1)
     if [ ! -z $exists ]; then
         git checkout $1
-        mv env .env
+        mv create_env .create_env
         mv ./.nobck_$1 ./nobck
         clear
         echo "Loaded env $1"
@@ -41,14 +43,14 @@ if [ $# -gt 0 ]; then
 
         ln -s ../.scripts/quit_env.sh quit_env
         chmod +x quit_env
-        mv env .env
+        mv create_env .create_env
         git add *
-        git add env .env
+        git add create_env .create_env
         git commit -m "$1 env init"
         clear
         echo "Created env $1"
         ls --color
     fi
 else
-    echo "usage: env <env name>"
+    echo "usage: create_env <env name>"
 fi

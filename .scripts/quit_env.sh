@@ -6,10 +6,11 @@ if [ $curr_branch -eq "master" ]; then
     echo "Nothing to do\n"
     echo "\tTo reset master branch do: \"git reset --hard HEAD\""
 else
-    mv ./.env ./env
+    mv ./.create_env ./create_env
     mv ./nobck ./.nobck_$curr_branch
     git add *
-    git add .env env
+    git status
+    git add .create_env create_env
     git commit -m "Quitting env"
     git checkout master
     clear
