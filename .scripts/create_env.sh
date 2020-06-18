@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -gt 0 ]; then
-
+    git checkout master
     ls .git 1>/dev/null 2>/dev/null
     has_git=$?
     echo "$1"
@@ -31,10 +31,15 @@ if [ $# -gt 0 ]; then
     if [ ! -z $exists ]; then
         git checkout $1
         mv create_env .create_env
+        mv list_envs .list_envs
         mv ./.nobck_$1 ./nobck
         clear
         echo "Loaded env $1"
     else
+        echo "$1" >> ./list_envs
+        git add list_envs
+        git commit "Creating env $1"
+
         git branch $1
         git checkout $1
 
@@ -44,6 +49,7 @@ if [ $# -gt 0 ]; then
         ln -s ../.scripts/quit_env.sh quit_env
         chmod +x quit_env
         mv create_env .create_env
+        mv list_envs .list_envs
         git add *
         git add create_env .create_env
         git commit -m "$1 env init"
