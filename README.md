@@ -30,13 +30,23 @@ Used to quit the environment, this script will:
 
 ### Backup
 ```
-./backup_all.sh
+./backup_all.sh <additionnal files>
 ```
 You can backup everything by simply execute the backup_all.sh script. It will:
 - Go into each branch of the "env/" folders git repo, and create patches from the root of the branch
 - Zip all the patches files, deflated
+- Zip as well the additionnal files passed in parameters
 - Use CantReadTh1s to encrypt the archive (and remove the original)
 Store somewhere safe, and enjoy !
+
+### Restore
+```
+./restore_env_bck.sh <bck file>
+```
+- Decrypt the file with CantReadTh1s
+- Unzip all
+- Re-create the git repository, add branches and apply changes to them using the patch files
+- Delete zipfile (will keep the encrypted backup file)
 
 ## Prerequisites
 * [Git](https://git-scm.com/) - Versionning tool
