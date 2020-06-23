@@ -5,10 +5,10 @@ OUTDIR=$PWD
 tmpdir=$(mktemp -d)
 cantreadth1s $BCK_FNAME --outfile $tmpdir/bck.zip
 patchdir=$tmpdir/env/envbck/
-cd $tmpdir
-unzip bck.zip #$tmpdir/bck.zip -d $tmpdir
-#rm -rf ./env &&
-mkdir env && cd env
+#cd $tmpdir
+unzip $tmpdir/bck.zip -d $tmpdir
+ls $tmpdir
+rm -rf $OUTDIR/env && mkdir -p $OUTDIR/env && cd $OUTDIR/env
 git init
 echo "$(ls $patchdir)" > list_envs
 git add * #list_envs create_env .quit_env
@@ -26,5 +26,7 @@ do
     git checkout master
 done
 echo $tmpdir
-rm bck.zip
-cp -r $tmpdir/* $OUTDIR
+ls $tmpdir
+rm $tmpdir/bck.zip
+rm -rf $tmpdir/env/
+cp -u -r $tmpdir/* $OUTDIR
